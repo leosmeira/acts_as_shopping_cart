@@ -12,7 +12,9 @@ module ActiveRecord
             shopping_cart_items.create(:item => object, :price => price, :quantity => quantity)
           else
             cumulative = cumulative == true ? cart_item.quantity : 0
+            cumulative_price = cumulative == true ? cart_item.price : 0
             cart_item.quantity = (cumulative + quantity)
+            cart_item.price = (cumulative_price + price)
             cart_item.save
           end
         end
@@ -49,7 +51,7 @@ module ActiveRecord
         # Returns the subtotal by summing the price times quantity for all the items in the cart
         #
         def subtotal
-          ("%.2f" % shopping_cart_items.inject(0) { |sum, item| sum += (item.price * item.quantity) }).to_f
+          ("%.2f" % shopping_cart_items.inject(0) { |sum, item| sum += (item.price) }).to_f
         end
 
         def shipping_cost
