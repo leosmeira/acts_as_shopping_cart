@@ -11,10 +11,12 @@ module ActiveRecord
           unless cart_item
             shopping_cart_items.create(:item => object, :price => price, :quantity => quantity)
           else
-            cumulative = cumulative == true ? cart_item.quantity : 0
+            cumulative_quantity = cumulative == true ? cart_item.quantity : 0
             cumulative_price = cumulative == true ? cart_item.price : 0
-            cart_item.quantity = (cumulative + quantity)
+            
+            cart_item.quantity = (cumulative_quantity + quantity)
             cart_item.price = (cumulative_price + price)
+            
             cart_item.save
           end
         end
