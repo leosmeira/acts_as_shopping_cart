@@ -5,10 +5,10 @@ module ActiveRecord
         #
         # Adds a product to the cart
         #
-        def add(object, price, quantity = 1, cumulative = true)
+        def add(object, price, quantity = 1, cumulative = true, same_items_separately = false)
           cart_item = item_for(object)
 
-          unless cart_item
+          if cart_item.nil? || same_items_separately
             shopping_cart_items.create(:item => object, :price => price, :quantity => quantity)
           else
             cumulative_quantity = cumulative == true ? cart_item.quantity : 0
