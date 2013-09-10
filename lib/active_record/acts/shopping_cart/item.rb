@@ -6,8 +6,10 @@ module ActiveRecord
         #
         # Returns the cart item for the specified object
         #
-        def item_for(object)
-          shopping_cart_items.where(:item_id => object.id, :item_type => object.class.name).first
+        def item_for(object, extra_fields={})
+          items = shopping_cart_items.where(:item_id => object.id, :item_type => object.class.name)
+          items = items.where(extra_fields) unless extra_fields.blank?
+          items.first
         end
 
         #

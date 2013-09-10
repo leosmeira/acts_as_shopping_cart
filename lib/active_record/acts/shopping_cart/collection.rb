@@ -5,11 +5,11 @@ module ActiveRecord
         #
         # Adds a product to the cart
         #
-        def add(object, price, quantity = 1, cumulative = true)
-          cart_item = item_for(object)
+        def add(object, price, quantity = 1, cumulative = true, extra_fields={})
+          cart_item = item_for(object, extra_fields)
 
           unless cart_item
-            shopping_cart_items.create(:item => object, :price => price, :quantity => quantity)
+            shopping_cart_items.create( extra_fields.merge({ :item => object, :price => price, :quantity => quantity }) )
           else
             cumulative = cumulative == true ? cart_item.quantity : 0
             cart_item.quantity = (cumulative + quantity)
