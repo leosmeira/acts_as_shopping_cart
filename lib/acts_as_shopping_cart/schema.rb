@@ -9,6 +9,9 @@ module ActsAsShoppingCart
       integer :item_id    # Holds the object id
       string  :item_type  # Holds the type of the object, for polymorphism
       float   :price      # Holds the price of the item
+
+      # allow to add extra optional fields to the table
+      yield(self) if block_given?
     end
   end
 end
